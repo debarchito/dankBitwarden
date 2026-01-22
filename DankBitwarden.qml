@@ -107,25 +107,14 @@ QtObject {
         }
     }
 
-    function closeLauncher() {
-        if (root.parentModal) {
-            root.parentModal.hide();
-        }
-        if (NiriService.inOverview) {
-            NiriService.toggleOverview();
-        }
-    }
-
     function copyItemField(item, field) {
         _prevPass = item._passId;
-        closeLauncher();
         Quickshell.execDetached(["sh", "-c", "rbw get --field '" + field + "' '" + item._passId + "' | dms cl copy -t 'x-kde-passwordManagerHint'"]);
         ToastService.showInfo("DankBitwarden", "Copied " + field + " of " + item._passName + " to clipboard");
     }
 
     function typeItemField(item, field) {
         _prevPass = item._passId;
-        closeLauncher();
         Quickshell.execDetached(["sh", "-c", "sleep 0.3 && rbw get --field '" + field + "' '" + item._passId + "' | wtype -"]);
     }
 
