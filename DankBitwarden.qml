@@ -101,12 +101,7 @@ QtObject {
 
         if (actionType === "type") {
             if (copyToClipboard) {
-                Quickshell.execDetached([
-                    "sh",
-                    "-c",
-                    "rbw get --field password '" + item._passId + "' | wl-copy"
-                ]);
-                ToastService.showInfo("DankBitwarden", "Copied password for " + item._passName + " to clipboard");
+                copyItemField(item, "password");
             } else {
                 Quickshell.execDetached([
                     "sh",
@@ -120,7 +115,11 @@ QtObject {
 
     function copyItemField(item, field) {
         _prevPass = item._passId;
-        Quickshell.execDetached(["sh", "-c", "rbw get --field '" + field + "' '" + item._passId + "' | dms cl copy -t 'x-kde-passwordManagerHint'"]);
+        Quickshell.execDetached([
+            "sh", "-c",
+            "rbw get --field '" + field + "' '" + item._passId + "' | dms cl copy && sleep 0.3 && " +
+            'dms cl delete $(dms cl history --json | awk \'/"id":/{print $2+0; exit}\')'
+        ]);
         ToastService.showInfo("DankBitwarden", "Copied " + field + " of " + item._passName + " to clipboard");
     }
 
