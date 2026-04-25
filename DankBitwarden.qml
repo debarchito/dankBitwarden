@@ -204,12 +204,31 @@ QtObject {
             id: passwordsProcess
 
             running: false
-            command: ["rbw", "list", "--raw", ]
+            command: ["rbw", "list", "--fields", "id,name,user,folder"]
 
             stdout: StdioCollector {
                 onStreamFinished: {
                     try {
-                        const data = JSON.parse(text);
+                        const lines = text.split("\n");
+                        const data = [];
+                        for (let i = 0; i < lines.length; i++) {
+                            const line = lines[i];
+                            if (!line)
+                                continue;
+                            const parts = line.split("\t");
+                            const id = parts[0] || "";
+                            const name = parts[1] || "";
+                            const user = parts[2] || "";
+                            const folder = parts[3] || "";
+                            if (!id)
+                                continue;
+                            data.push({
+                                id: name,
+                                name: name,
+                                user: user,
+                                folder: folder || null
+                            });
+                        }
                         root.onPasswordsLoaded(data);
                     } catch (e) {
                         console.error("[DankBitwarden] Failed to parse passwords:", e);
