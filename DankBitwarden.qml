@@ -147,8 +147,9 @@ QtObject {
                 Quickshell.execDetached([
                     "sh",
                     "-c",
-                    "rbw get --field username '" + item._passId + "' | wtype - && " +
-                    "rbw get --field password '" + item._passId + "' | wtype -"
+                    "rbw get --field username '" + item._passId + "' | tr -d '\\n' | wtype - && " +
+                    "wtype -k Tab && " +
+                    "rbw get --field password '" + item._passId + "' | tr -d '\\n' | wtype -"
                 ]);
                 return;
             }
@@ -174,7 +175,7 @@ QtObject {
 
     function typeItemField(item, field) {
         _prevPass = item._passId;
-        Quickshell.execDetached(["sh", "-c", "sleep 0.3 && rbw get --field '" + field + "' '" + item._passId + "' | wtype -"]);
+        Quickshell.execDetached(["sh", "-c", "sleep 0.3 && rbw get --field '" + field + "' '" + item._passId + "' | tr -d '\\n' | wtype -"]);
     }
 
     function getContextMenuActions(item) {
