@@ -1,6 +1,13 @@
 # Bitwarden Plugin for DMS Launcher
 Launcher plugin for DankMaterialShell to search through bitwarden entries with rbw and copy or type fields.
 
+## Features
+- Search across all Bitwarden entries from the DMS launcher
+- Supports Login, Card, Identity, SSH Key, and Note entry types with type-specific icons
+- Configurable default action per entry type (autotype, copy, or type any field)
+- Login autotype pastes username, presses Tab, then pastes password
+- Context menu with Copy/Type for every field on the entry
+
 ## Usage
 1. Install and setup `rbw` following [its readme](https://github.com/doy/rbw).
 2. Confirm that running `rbw list` prints out all entries.
